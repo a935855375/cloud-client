@@ -98,13 +98,15 @@
                (ngModelChange)="changeAll($event)"></label>
       </div>
       <div class="d-flex align-items-center w-100 h-100">
-        <div class="d-flex align-items-center h-100 action-item"
-             style="width: 50%; font-weight: 700">
+        <div (click)="sort(1)" class="d-flex align-items-center h-100 action-item w-50 action-item-active"
+             [class.action-item-active]="order == 1 || order == -1">
           <a class="filter f-13">名称</a>
         </div>
-        <div class="d-flex align-items-center h-100 action-item pl-3" style="width: 20%">
+        <div (click)="sort(2)" class="d-flex align-items-center h-100 action-item pl-3 action-item-active"
+             style="width: 20%" [class.action-item-active]="order == 2 || order == -2">
           <a class="filter f-13">上次修改时间</a></div>
-        <div class="d-flex align-items-center h-100 action-item pl-3" style="width: 30%">
+        <div (click)="sort(3)" class="d-flex align-items-center h-100 action-item pl-3 action-item-active"
+             style="width: 30%" [class.action-item-active]="order == 3 || order == -3">
           <a class="filter f-13">大小</a>
         </div>
       </div>

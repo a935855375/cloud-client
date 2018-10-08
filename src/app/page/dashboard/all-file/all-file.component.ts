@@ -18,6 +18,8 @@ export class AllFileComponent implements OnInit {
 
   curDir = [];
 
+  order = 1;
+
   constructor(private httpClient: HttpClient,
               private message: NzMessageService,
               private commonService: CommonService,
@@ -80,7 +82,6 @@ export class AllFileComponent implements OnInit {
     this.commonService.getRootDir().then((x: any) => {
       this.fileList = this.sortFiles(x.files);
       this.curDir.push(x);
-      console.log(this.curDir);
     });
   }
 
@@ -291,12 +292,34 @@ export class AllFileComponent implements OnInit {
         return -1;
       else if (!a.isFold && b.isFold)
         return 1;
-      else
-        return 0;
+      else {
+        switch (this.order) {
+          case 1:
+            return a.name.localeCompare(b.name, "zh");
+          case 2:
+            return moment(a.date).unix() > moment(b.date).unix();
+          case 3:
+            return a.size > b.size;
+          case -1:
+            return b.name.localeCompare(a.name, "zh");
+          case -2:
+            return moment(b.date).unix() > moment(a.date).unix();
+          case -3:
+            return b.size > a.size;
+        }
+      }
     });
   }
 
   getCurDirUUID() {
     return this.curDir.map(x => x.uuid).toString();
+  }
+
+  sort(order) {
+    if(Math.abs(order) === Math.abs(this.order))
+      this.order = -this.order;
+    else
+      this.order = order;
+    this.fileList = this.sortFiles(this.fileList);
   }
 }
