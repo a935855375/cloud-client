@@ -1,0 +1,157 @@
+<div style="max-height: 100vh;padding-left: 240px">
+
+  <div style="height: 64px; padding-left: 50px" class="d-flex align-items-center">
+    <nz-upload
+      class="mr-3"
+      nzAction="http://localhost:8080/upload/"
+      [nzShowUploadList]="false"
+      [nzMultiple]="true"
+      [nzCustomRequest]="handler">
+      <div class="d-flex align-items-center button-primary">
+        <i class="icon icon-upload-s mr-1"></i>
+        <span>上传</span>
+      </div>
+    </nz-upload>
+
+    <div (click)="newFolder()" class="d-flex align-items-center button-default">
+      <i class="icon icon-add mr-1"></i>
+      <span>新建</span>
+    </div>
+
+    <div *ngIf="selectedList.length > 0" class="ml-3 action-group">
+      <span (click)="download()" class="action-button" nz-tooltip nzTitle="下载" nzPlacement="bottom">
+          <i class="icon icon-download"></i>
+      </span>
+      <span class="action-button" nz-tooltip nzTitle="分享" nzPlacement="bottom">
+        <i class="icon icon-share"></i>
+      </span>
+      <span (click)="deleteFile()" class="action-button" nz-tooltip nzTitle="删除" nzPlacement="bottom">
+        <i class="icon icon-trash"></i>
+      </span>
+      <nz-dropdown class="d-flex align-items-stretch" [nzPlacement]="'bottomRight'">
+        <div class="action-button" style="border-right: none !important;" nz-dropdown>
+          <i class="icon icon-more"></i>
+        </div>
+        <ul nz-menu>
+          <li nz-menu-item>
+            <a>移动到</a>
+          </li>
+          <li (click)="rename()" nz-menu-item>
+            <a>重命名</a>
+          </li>
+          <li nz-menu-item>
+            <a>添加到共享组</a>
+          </li>
+        </ul>
+      </nz-dropdown>
+    </div>
+
+    <nz-dropdown class="ml-auto" style="margin-right: 4rem" [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
+      <a nz-dropdown class="f-14">
+        Dust <i class="anticon anticon-down"></i>
+      </a>
+      <ul nz-menu>
+        <li nz-menu-item>1st menu item</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-divider></li>
+        <li nz-menu-item nzDisabled>disabled menu item</li>
+        <li nz-submenu>
+          <span title>sub menu</span>
+          <ul>
+            <li nz-menu-item>3rd menu item</li>
+            <li nz-menu-item>4th menu item</li>
+          </ul>
+        </li>
+        <li nz-submenu nzDisabled>
+          <span title>disabled sub menu</span>
+          <ul>
+            <li nz-menu-item>3rd menu item</li>
+            <li nz-menu-item>4th menu item</li>
+          </ul>
+        </li>
+      </ul>
+    </nz-dropdown>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="d-flex align-items-center" style="height: 48px;padding-left: 50px">
+    <a *ngFor="let x of curDir, let idx = index" class="filter crumb-selected"
+       [class.crumb-selected]="idx == curDir.length -1" (click)="clickBread(x, idx == curDir.length -1)">
+      <i *ngIf="idx != 0" class="icon-bread-next d-inline-block mx-2-5"></i>
+      {{x.name}}
+    </a>
+
+    <div class="ml-auto d-flex justify-content-center action-item" style="padding: 6px">
+      <i class="icon icon-mode-list p-0"></i>
+    </div>
+
+    <div class="d-flex justify-content-center action-item" style="padding: 6px; margin-right: 4rem">
+      <i class="icon icon-mode-thumb p-0"></i>
+    </div>
+  </div>
+
+  <div *ngIf="fileList.length > 0">
+    <div class="d-flex align-items-center justify-content-between filter-title">
+      <div style="width: 40px;" class="d-flex align-items-center">
+        <label style="padding: 0 12px; display: none" nz-checkbox [ngModel]="selectAll"
+               (ngModelChange)="changeAll($event)"></label>
+      </div>
+      <div class="d-flex align-items-center w-100 h-100">
+        <div class="d-flex align-items-center h-100 action-item"
+             style="width: 50%; font-weight: 700">
+          <a class="filter f-13">名称</a>
+        </div>
+        <div class="d-flex align-items-center h-100 action-item pl-3" style="width: 20%">
+          <a class="filter f-13">上次修改时间</a></div>
+        <div class="d-flex align-items-center h-100 action-item pl-3" style="width: 30%">
+          <a class="filter f-13">大小</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="line" style="margin-left: 50px; margin-right: calc(4rem + 8px);"></div>
+
+    <div style="height: calc(100vh - 66px - 48px - 40px); overflow: auto">
+      <div *ngFor="let x of fileList, let idx = index">
+        <div class="d-flex item-selected file-line" [class.item-selected]="x.selected == true">
+          <div style="width: 40px;" class="d-flex align-items-center">
+            <label [ngStyle]="{'display': x.selected ? 'inline-block' : 'none'}" class="my-checked"
+                   style="padding-left: 12px;padding-right: 10px;" nz-checkbox
+                   [class.my-checked]="x.selected" [ngModel]="x.selected"
+                   (ngModelChange)="changeButton($event, x)"></label>
+          </div>
+          <div (click)="changeStatus(x)" (dblclick)="enter(x)" class="d-flex align-items-center w-100">
+            <div class="d-flex align-items-center" style="width: 50%;">
+              <i class="icon icon-m mr-3" [ngStyle]="{'background-image': getFileSVGImg(x)}"></i>
+              <a [ngStyle]="{'display': x.edit ? 'none' : 'inline-block'}">{{x.name}}</a>
+              <input [ngStyle]="{'display': x.edit ? 'inline-block' : 'none'}" #input class="rename-input"
+                     (focus)="select(input, x.name)" (focusout)="fixRename(x)" (keydown.enter)="input.blur()"
+                     [(ngModel)]="x.rename" title="重命名" [attr.id]="'input' + idx">
+            </div>
+            <div class="pl-3" style="width: 20%">
+              <span>{{x.date | format}}</span>
+            </div>
+            <div style="width: 30%">
+              <span class="pl-3">{{x.size | size}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="line" style="margin-left: 50px; margin-right: 4rem;"></div>
+      </div>
+
+      <div class="list-group-info">
+        <p>共<span class="mx-1">{{fileList.length}}</span>项</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="fileList.length == 0" style="height: calc(100vh - 66px - 48px); margin-top: -2rem"
+       class="d-flex justify-content-center align-items-center">
+    <div class="empty-box">
+      <i class="icon-no-file no-file"></i>
+      <h2 class="title">暂无文件</h2>
+      <p class="txt">请点击左上角的“上传”按钮添加</p>
+    </div>
+  </div>
+</div>

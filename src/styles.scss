@@ -1,0 +1,113 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/utilities";
+@import "~font-awesome/css/font-awesome.css";
+@import "assets/css/base";
+
+.icon {
+  display: inline-block;
+  position: relative;
+  height: 24px;
+  width: 24px;
+}
+
+.icon-m {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.icon-upload-s {
+  background-image: url("assets/img/icon-upload-s.svg");
+}
+
+.icon-add {
+  background-image: url("assets/img/icon-add.svg");
+}
+
+.icon-mode-list {
+  background-image: url("assets/img/icon-mode-list.svg");
+}
+
+.icon-mode-thumb {
+  background-image: url("assets/img/icon-mode-thumb.svg");
+}
+
+.icon-file-m {
+  background-image: url("assets/img/icon-file-m.svg");
+}
+
+.icon-download {
+  background-image: url("assets/img/icon-download.svg");
+}
+
+.icon-share {
+  background-image: url("assets/img/icon-share.svg");
+}
+
+.icon-trash {
+  background-image: url("assets/img/icon-trash.svg");
+}
+
+.icon-more {
+  background-image: url("assets/img/icon-more.svg");
+}
+
+.icon-bread-next {
+  width: 6px;
+  height: 10px;
+  background-image: url("assets/img/icon-bread-next.svg");
+}
+
+.icon-no-file {
+  background-image: url("assets/img/icon-nofile.svg");
+}
+
+.line {
+  background-color: #E5E5E5;
+  height: 1px;
+}
+
+.button-primary {
+  background-color: #2980FF;
+  height: 36px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0 20px;
+  border: 1px solid #2980FF;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+.button-default {
+  background-color: #fff;
+  color: black;
+  height: 36px;
+  cursor: pointer;
+  padding: 0 20px;
+  border: 1px solid #DBDBDB;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+  overflow: visible;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  border: solid transparent;
+  border-width: 1px 0;
+  background: #D8DCE5;
+}
