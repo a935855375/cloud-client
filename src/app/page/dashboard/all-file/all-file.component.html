@@ -1,4 +1,4 @@
-<div style="max-height: 100vh;padding-left: 240px">
+<div class="forbid-select" style="max-height: 100vh;padding-left: 240px">
 
   <div style="height: 64px; padding-left: 50px" class="d-flex align-items-center">
     <nz-upload
@@ -33,7 +33,7 @@
           <i class="icon icon-more"></i>
         </div>
         <ul nz-menu>
-          <li nz-menu-item>
+          <li (click)="showModal()" nz-menu-item>
             <a>移动到</a>
           </li>
           <li (click)="rename()" nz-menu-item>
@@ -45,6 +45,11 @@
         </ul>
       </nz-dropdown>
     </div>
+
+    <nz-modal [(nzVisible)]="isVisible" nzWrapClassName="vertical-center-modal" nzTitle="移动到"
+              (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+      <nz-tree #tree [nzData]="nodes" nzShowIcon="true"></nz-tree>
+    </nz-modal>
 
     <nz-dropdown class="ml-auto" style="margin-right: 4rem" [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
       <a nz-dropdown class="f-14">
@@ -100,14 +105,24 @@
       <div class="d-flex align-items-center w-100 h-100">
         <div (click)="sort(1)" class="d-flex align-items-center h-100 action-item w-50 action-item-active"
              [class.action-item-active]="order == 1 || order == -1">
-          <a class="filter f-13">名称</a>
+          <a class="filter f-13 d-inline-flex">名称
+            <i *ngIf="order == -1" class="icon-sort align-self-center"></i>
+            <i *ngIf="order == 1" class="icon-sort up align-self-center"></i>
+          </a>
         </div>
         <div (click)="sort(2)" class="d-flex align-items-center h-100 action-item pl-3 action-item-active"
              style="width: 20%" [class.action-item-active]="order == 2 || order == -2">
-          <a class="filter f-13">上次修改时间</a></div>
+          <a class="filter f-13 d-inline-flex">上次修改时间
+            <i *ngIf="order == 2" class="icon-sort up align-self-center"></i>
+            <i *ngIf="order == -2" class="icon-sort align-self-center"></i>
+          </a>
+        </div>
         <div (click)="sort(3)" class="d-flex align-items-center h-100 action-item pl-3 action-item-active"
              style="width: 30%" [class.action-item-active]="order == 3 || order == -3">
-          <a class="filter f-13">大小</a>
+          <a class="filter f-13 d-inline-flex">大小
+            <i *ngIf="order == 3" class="icon-sort up align-self-center"></i>
+            <i *ngIf="order == -3" class="icon-sort align-self-center"></i>
+          </a>
         </div>
       </div>
     </div>

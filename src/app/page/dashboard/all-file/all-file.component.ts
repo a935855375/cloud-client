@@ -1,7 +1,7 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
+import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpEventType, HttpRequest} from '@angular/common/http';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, NzTreeComponent} from 'ng-zorro-antd';
 import {CommonService} from '../../../service/common.service';
 import * as SparkMD5 from 'spark-md5';
 import * as moment from 'moment';
@@ -19,6 +19,10 @@ export class AllFileComponent implements OnInit {
   curDir = [];
 
   order = 1;
+
+  isVisible = false;
+
+  @ViewChild('tree') tree: NzTreeComponent;
 
   constructor(private httpClient: HttpClient,
               private message: NzMessageService,
@@ -295,13 +299,13 @@ export class AllFileComponent implements OnInit {
       else {
         switch (this.order) {
           case 1:
-            return a.name.localeCompare(b.name, "zh");
+            return a.name.localeCompare(b.name, 'zh');
           case 2:
             return moment(a.date).unix() > moment(b.date).unix();
           case 3:
             return a.size > b.size;
           case -1:
-            return b.name.localeCompare(a.name, "zh");
+            return b.name.localeCompare(a.name, 'zh');
           case -2:
             return moment(b.date).unix() > moment(a.date).unix();
           case -3:
@@ -316,10 +320,62 @@ export class AllFileComponent implements OnInit {
   }
 
   sort(order) {
-    if(Math.abs(order) === Math.abs(this.order))
+    if (Math.abs(order) === Math.abs(this.order))
       this.order = -this.order;
     else
       this.order = order;
     this.fileList = this.sortFiles(this.fileList);
   }
+
+  showModal(): void {
+    const root = this.curDir[0];
+    const filtered = this.filterNormalFile(root);
+    this.nodes = [this.dirToNode(filtered)];
+    this.nodes[0].expanded = true;
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    //this.isVisible = false;
+    console.log(this.tree.getSelectedNodeList());
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+  filterNormalFile(x) {
+    return {
+      fold: x.isFold,
+      name: x.name,
+      uuid: x.uuid,
+      files: x.files.filter(z => z.isFold).map(z => this.filterNormalFile(z))
+    };
+  }
+
+  dirToNode(x) {
+    return {
+      title: x.name,
+      icon: 'anticon anticon-meh-o',
+      isLeaf: x.files.length == 0,
+      expanded: false,
+      uuid: x.uuid,
+      children: x.files.map(z => this.dirToNode(z))
+    };
+  }
+
+  nodes = [
+    {
+      title: '全部',
+      expanded: true,
+      icon: 'anticon anticon-meh-o',
+      children: [
+        {title: '新建文件夹', icon: 'anticon anticon-meh-o', isLeaf: true},
+        {title: 'asd', icon: 'anticon anticon-frown-o', isLeaf: true}
+      ]
+    }
+  ];
+
 }

@@ -10,6 +10,14 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
+.forbid-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
 a {
   cursor: pointer;
 }

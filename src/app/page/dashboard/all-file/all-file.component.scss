@@ -121,3 +121,27 @@
 .txt {
   font-size: 18px;
 }
+
+::ng-deep .vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ant-modal-close button:active,
+  button:focus,
+  button.active,
+  button:active:focus {
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .ant-modal-footer {
+    border-top: none;
+  }
+}
+
+::ng-deep .vertical-center-modal .ant-modal {
+  top: 0;
+}

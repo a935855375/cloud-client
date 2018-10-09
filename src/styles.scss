@@ -66,6 +66,21 @@
   background-image: url("assets/img/icon-nofile.svg");
 }
 
+.icon-sort {
+  height: 14px;
+  width: 14px;
+  margin-left: 2px;
+  display: inline-block;
+  background-image: url("assets/img/icon-sort.svg");
+}
+
+.up {
+  -moz-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  transform: scaleY(-1);
+}
+
 .line {
   background-color: #E5E5E5;
   height: 1px;
