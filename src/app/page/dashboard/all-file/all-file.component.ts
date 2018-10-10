@@ -328,7 +328,7 @@ export class AllFileComponent implements OnInit {
   }
 
   showModal(): void {
-    if (this.selectedList.length == 1) {
+    if (this.selectedList.length > 0) {
       const root = this.curDir[0];
       const filtered = this.filterNormalFile(root);
       this.nodes = [this.dirToNode(filtered)];
@@ -346,13 +346,13 @@ export class AllFileComponent implements OnInit {
       temp.push(last.origin.uuid);
     }
     const from = this.getCurDirUUID();
-    const uuid = this.selectedList[0].uuid;
+    const uuid = this.selectedList.map(x => x.uuid);
     const to = temp.reverse();
-    this.commonService.moveFile(from, uuid, to.toString()).then((x: any) => {
+    this.commonService.moveFile(from, uuid.toString(), to.toString()).then((x: any) => {
       if (x.status) {
         const idx = this.curDir.length - 1;
-        const file = this.curDir[idx].files.find(x => x.uuid == uuid);
-        this.curDir[idx].files = this.curDir[idx].files.filter(x => x.uuid != uuid);
+        const file = this.curDir[idx].files.filter(x => uuid.indexOf(x.uuid) != -1);
+        this.curDir[idx].files = this.curDir[idx].files.filter(x => uuid.indexOf(x.uuid) == -1);
         let source = this.curDir[0];
         if (to.length != 1) {
           to.splice(0,1);
@@ -360,7 +360,7 @@ export class AllFileComponent implements OnInit {
             source = source.files.find(x => x.uuid == next);
           });
         }
-        source.files.push(file);
+        source.files = [...source.files, ...file];
         this.fileList = this.sortFiles(this.curDir[idx].files);
         this.message.success(x.message);
       } else {
