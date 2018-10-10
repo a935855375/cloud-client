@@ -328,21 +328,49 @@ export class AllFileComponent implements OnInit {
   }
 
   showModal(): void {
-    const root = this.curDir[0];
-    const filtered = this.filterNormalFile(root);
-    this.nodes = [this.dirToNode(filtered)];
-    this.nodes[0].expanded = true;
-    this.isVisible = true;
+    if (this.selectedList.length == 1) {
+      const root = this.curDir[0];
+      const filtered = this.filterNormalFile(root);
+      this.nodes = [this.dirToNode(filtered)];
+      this.nodes[0].expanded = true;
+      this.isVisible = true;
+    }
   }
 
   handleOk(): void {
-    console.log('Button ok clicked!');
-    //this.isVisible = false;
-    console.log(this.tree.getSelectedNodeList());
+    let last = this.tree.getSelectedNodeList()[0];
+    const temp = [];
+    temp.push(last.origin.uuid);
+    while (last.parentNode) {
+      last = last.parentNode;
+      temp.push(last.origin.uuid);
+    }
+    const from = this.getCurDirUUID();
+    const uuid = this.selectedList[0].uuid;
+    const to = temp.reverse();
+    this.commonService.moveFile(from, uuid, to.toString()).then((x: any) => {
+      if (x.status) {
+        const idx = this.curDir.length - 1;
+        const file = this.curDir[idx].files.find(x => x.uuid == uuid);
+        this.curDir[idx].files = this.curDir[idx].files.filter(x => x.uuid != uuid);
+        let source = this.curDir[0];
+        if (to.length != 1) {
+          to.splice(0,1);
+          to.forEach((next) => {
+            source = source.files.find(x => x.uuid == next);
+          });
+        }
+        source.files.push(file);
+        this.fileList = this.sortFiles(this.curDir[idx].files);
+        this.message.success(x.message);
+      } else {
+        this.message.error(x.message);
+      }
+    });
+    this.isVisible = false;
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 
@@ -358,7 +386,7 @@ export class AllFileComponent implements OnInit {
   dirToNode(x) {
     return {
       title: x.name,
-      icon: 'anticon anticon-meh-o',
+      icon: 'icon-file-xs',
       isLeaf: x.files.length == 0,
       expanded: false,
       uuid: x.uuid,

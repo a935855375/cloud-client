@@ -1,0 +1,2 @@
+
+<svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>icon-file-s</title><defs><path d="M9 1.28h8a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h6.301a1 1 0 0 1 .706.291L9 1.28z" id="a"/></defs><g transform="translate(0 1)" fill="none" fill-rule="evenodd"><mask id="b" fill="#fff"><use xlink:href="#a"/></mask><use fill="#6AABFF" xlink:href="#a"/><path fill="#4C94F0" mask="url(#b)" d="M0 0h18v4H0z"/></g></svg>

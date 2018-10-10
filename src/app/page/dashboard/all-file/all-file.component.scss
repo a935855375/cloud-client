@@ -145,3 +145,38 @@
 ::ng-deep .vertical-center-modal .ant-modal {
   top: 0;
 }
+
+::ng-deep .ant-modal-body {
+  padding: 31px 20px 15px;
+
+  .ant-tree {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid #D2D8DC;
+    border-radius: 0 0 2px 2px;
+    max-height: 200px;
+    box-sizing: border-box;
+    overflow: auto;
+    padding: 9px 0;
+    animation: height-increase .5s ease both;
+
+    li {
+      padding: 0;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    .ant-tree-icon__customize {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ant-tree-node-content-wrapper {
+      color: #000 !important;
+    }
+  }
+}

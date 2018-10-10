@@ -46,4 +46,14 @@ export class CommonService {
 
     return this.http.get(url, {params: params}).toPromise();
   }
+
+  moveFile(source, uuid, to) {
+    const params = new HttpParams().set('from', source)
+      .append('to', to)
+      .append('uuid', uuid);
+
+    const url = environment.apiUrl + 'move';
+
+    return this.http.get(url, {params: params}).toPromise();
+  }
 }
