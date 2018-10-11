@@ -79,13 +79,14 @@
 
   <div class="px-4 mt-auto mb-4">
     <div class="mb-1 d-flex justify-content-between">
-      <span style="font-size: 12px; color: #777">已用 5.73 GB/10GB</span>
-      <span style="font-size: 12px; color: #777">扩容 <i class="fa fa-angle-right" style="font-size: 15px"
-                                                       aria-hidden="true"></i></span>
+      <span style="font-size: 12px; color: #777">已用 {{use | size}} / {{total | size}}</span>
+      <span style="font-size: 12px; color: #777">扩容
+        <i class="fa fa-angle-right" style="font-size: 15px" aria-hidden="true"></i>
+      </span>
     </div>
 
     <div style="height: 4px;background: #E4E4E4">
-      <div style="width: 57.4%; height: 100%; background: #2980FF"></div>
+      <div [ngStyle]="{'width': (use / total * 100) +  '%'}" style="height: 100%; background: #2980FF"></div>
     </div>
 
   </div>

@@ -6,6 +6,7 @@ import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {AllFileRoutingModule} from './all-file.routing.module';
 import {DateFormatPipe} from '../../../service/date-format.pipe';
 import {SizeFormatPipe} from '../../../service/size-format.pipe';
+import {DashboardModule} from '../dashboard.module';
 
 @NgModule({
   imports: [
@@ -13,11 +14,10 @@ import {SizeFormatPipe} from '../../../service/size-format.pipe';
     NgZorroAntdModule,
     FormsModule,
     AllFileRoutingModule,
+    DashboardModule
   ],
   declarations: [
     AllFileComponent,
-    DateFormatPipe,
-    SizeFormatPipe
   ]
 })
 export class AllFileModule {

@@ -56,4 +56,10 @@ export class CommonService {
 
     return this.http.get(url, {params: params}).toPromise();
   }
+
+  getDiskUsage() {
+    const url = environment.apiUrl + 'diskUsage';
+
+    return this.http.get(url).toPromise();
+  }
 }

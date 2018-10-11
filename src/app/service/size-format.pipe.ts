@@ -5,17 +5,21 @@ import {isInteger} from 'ng-zorro-antd';
 export class SizeFormatPipe implements PipeTransform {
   transform(value: any): string {
     let unit = 'B';
-    if(value > 1024) {
+    if(value >= 1024) {
       value = value / 1024;
       unit = 'KB'
     }
-    if(value > 1024) {
+    if(value >= 1024) {
       value = value / 1024;
       unit = 'MB'
     }
-    if(value > 1024) {
+    if(value >= 1024) {
       value = value / 1024;
       unit = 'GB'
+    }
+    if(value >= 1024) {
+      value = value / 1024;
+      unit = 'TB'
     }
     if(!isInteger(value))
       value = value.toFixed(2);
