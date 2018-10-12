@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpEventType, HttpRequest} from '@angular/common/http';
 import {NzMessageService, NzTreeComponent} from 'ng-zorro-antd';
@@ -11,7 +11,7 @@ import * as moment from 'moment';
   templateUrl: './all-file.component.html',
   styleUrls: ['./all-file.component.scss']
 })
-export class AllFileComponent implements OnInit {
+export class AllFileComponent implements OnInit, OnDestroy {
   selectAll = false;
   fileList = [];
   selectedList = [];
@@ -22,7 +22,11 @@ export class AllFileComponent implements OnInit {
 
   isVisible = false;
 
+  nodes = [];
+
   @ViewChild('tree') tree: NzTreeComponent;
+
+  @Input('type') type: string;
 
   constructor(private httpClient: HttpClient,
               private message: NzMessageService,
@@ -83,16 +87,21 @@ export class AllFileComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.commonService.disk) {
-      this.fileList = this.sortFiles(this.commonService.disk.files);
-      this.curDir.push(this.commonService.disk);
-    } else
-      this.commonService.getRootDir().then((x: any) => {
-        console.log(x);
-        this.commonService.disk = x;
-        this.fileList = this.sortFiles(x.files);
-        this.curDir.push(x);
-      });
+    if(this.type == 'all') {
+      if (this.commonService.disk) {
+        this.fileList = this.sortFiles(this.commonService.disk.files);
+        this.curDir.push(this.commonService.disk);
+      } else
+        this.commonService.getRootDir().then((x: any) => {
+          this.commonService.disk = x;
+          this.fileList = this.sortFiles(x.files);
+          this.curDir.push(x);
+        });
+    } else {
+        this.commonService.getClassifiedFile(this.type).then((x: any) => {
+          this.fileList = this.sortFiles(x);
+        });
+    }
 
   }
 
@@ -308,13 +317,23 @@ export class AllFileComponent implements OnInit {
           case 1:
             return a.name.localeCompare(b.name, 'zh');
           case 2:
-            return moment(a.date).unix() > moment(b.date).unix();
+            if(moment(a.date).unix() > moment(b.date).unix())
+              return 1;
+            else if(moment(a.date).unix() < moment(b.date).unix())
+              return -1;
+            else
+              return 0;
           case 3:
             return a.size > b.size;
           case -1:
             return b.name.localeCompare(a.name, 'zh');
           case -2:
-            return moment(b.date).unix() > moment(a.date).unix();
+            if(moment(a.date).unix() > moment(b.date).unix())
+              return -1;
+            else if(moment(a.date).unix() < moment(b.date).unix())
+              return 1;
+            else
+              return 0;
           case -3:
             return b.size > a.size;
         }
@@ -401,16 +420,24 @@ export class AllFileComponent implements OnInit {
     };
   }
 
-  nodes = [
-    {
-      title: '全部',
-      expanded: true,
-      icon: 'anticon anticon-meh-o',
-      children: [
-        {title: '新建文件夹', icon: 'anticon anticon-meh-o', isLeaf: true},
-        {title: 'asd', icon: 'anticon anticon-frown-o', isLeaf: true}
-      ]
+  getTypeName() {
+    switch (this.type) {
+      case 'doc':
+        return '文档';
+      case 'pic':
+        return '图片';
+      case 'video':
+        return '视频';
+      case 'audio':
+        return '音乐';
     }
-  ];
+  }
+
+  ngOnDestroy(): void {
+    if(this.type == 'all') {
+      const idx = this.curDir.length - 1;
+      this.curDir[idx].files.forEach(x => x.selected = false);
+    }
+  }
 
 }

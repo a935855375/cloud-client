@@ -13,12 +13,12 @@
       </div>
     </nz-upload>
 
-    <div (click)="newFolder()" class="d-flex align-items-center button-default">
+    <div *ngIf="this.type=='all'" (click)="newFolder()" class="d-flex align-items-center button-default mr-3">
       <i class="icon icon-add mr-1"></i>
       <span>新建</span>
     </div>
 
-    <div *ngIf="selectedList.length > 0" class="ml-3 action-group">
+    <div *ngIf="selectedList.length > 0" class="action-group">
       <span (click)="download()" class="action-button" nz-tooltip nzTitle="下载" nzPlacement="bottom">
           <i class="icon icon-download"></i>
       </span>
@@ -85,6 +85,10 @@
        [class.crumb-selected]="idx == curDir.length -1" (click)="clickBread(x, idx == curDir.length -1)">
       <i *ngIf="idx != 0" class="icon-bread-next d-inline-block mx-2-5"></i>
       {{x.name}}
+    </a>
+
+    <a *ngIf="type!='all'" class="filter crumb-selected">
+      {{getTypeName(type)}}
     </a>
 
     <div class="ml-auto d-flex justify-content-center action-item" style="padding: 6px">

@@ -58,6 +58,14 @@ export class CommonService {
     return this.http.get(url, {params: params}).toPromise();
   }
 
+  getClassifiedFile(type) {
+    const params = new HttpParams().set('type', type);
+
+    const url = environment.apiUrl + 'file';
+
+    return this.http.get(url, {params: params}).toPromise();
+  }
+
   getDiskUsage() {
     const url = environment.apiUrl + 'diskUsage';
 

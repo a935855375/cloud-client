@@ -30,17 +30,17 @@
       <a><i class="fa fa-database mr-3" style="font-size: 18px" aria-hidden="true"></i></a>
       <a>文档</a>
     </div>
-    <div [class.selected]="selected==3" class="py-1 d-flex align-items-center selected item">
+    <div (click)="select(3)" [class.selected]="selected==3" class="py-1 d-flex align-items-center selected item">
       <a [class.bar]="selected==3" class="left bar"></a>
       <a><i class="fa fa-file-image-o mr-3" style="font-size: 18px" aria-hidden="true"></i></a>
       <a>图片</a>
     </div>
-    <div [class.selected]="selected==4" class="py-1 d-flex align-items-center selected item">
+    <div (click)="select(4)" [class.selected]="selected==4" class="py-1 d-flex align-items-center selected item">
       <a [class.bar]="selected==4" class="left bar"></a>
       <a><i class="fa fa-file-video-o mr-3" style="font-size: 18px" aria-hidden="true"></i></a>
       <a>视频</a>
     </div>
-    <div [class.selected]="selected==5" class="py-1 d-flex align-items-center selected item">
+    <div (click)="select(5)" [class.selected]="selected==5" class="py-1 d-flex align-items-center selected item">
       <a [class.bar]="selected==5" class="left bar"></a>
       <a><i class="fa fa-file-audio-o mr-3" style="font-size: 18px" aria-hidden="true"></i></a>
       <a>音乐</a>

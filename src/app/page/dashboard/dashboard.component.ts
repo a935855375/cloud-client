@@ -32,6 +32,15 @@ export class DashboardComponent implements OnInit {
       case 2:
         this.router.navigate(['/disk/doc']);
         break;
+      case 3:
+        this.router.navigate(['/disk/pic']);
+        break;
+      case 4:
+        this.router.navigate(['/disk/video']);
+        break;
+      case 5:
+        this.router.navigate(['/disk/audio']);
+        break;
     }
   }
 }
