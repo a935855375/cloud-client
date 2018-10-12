@@ -10,7 +10,7 @@
   </div>
 
   <div class="my-3 d-flex flex-column list">
-    <div (click)="selected=0" [class.selected]="selected==0" class="py-1 d-flex align-items-center selected item">
+    <div (click)="select(0)" [class.selected]="selected==0" class="py-1 d-flex align-items-center selected item">
       <a [class.bar]="selected==0" class="left bar"></a>
       <a><i class="anticon anticon-clock-circle mr-3" style="font-size: 18px"></i></a>
       <a>最近</a>
@@ -20,12 +20,12 @@
   <div class="mx-4 line"></div>
 
   <div class="my-3 d-flex flex-column list">
-    <div [class.selected]="selected==1" class="py-1 d-flex align-items-center selected item">
+    <div (click)="select(1)" [class.selected]="selected==1" class="py-1 d-flex align-items-center selected item">
       <a [class.bar]="selected==1" class="left bar"></a>
       <a><i class="fa fa-file-text mr-3" style="font-size: 18px" aria-hidden="true"></i></a>
       <a>全部</a>
     </div>
-    <div [class.selected]="selected==2" class="py-1 d-flex align-items-center selected item">
+    <div (click)="select(2)" [class.selected]="selected==2" class="py-1 d-flex align-items-center selected item">
       <a [class.bar]="selected==2" class="left bar"></a>
       <a><i class="fa fa-database mr-3" style="font-size: 18px" aria-hidden="true"></i></a>
       <a>文档</a>

@@ -7,6 +7,8 @@ import {AllFileRoutingModule} from './all-file.routing.module';
 import {DateFormatPipe} from '../../../service/date-format.pipe';
 import {SizeFormatPipe} from '../../../service/size-format.pipe';
 import {DashboardModule} from '../dashboard.module';
+import {AppModule} from '../../../app.module';
+import {UtilModule} from '../../../service/util.module';
 
 @NgModule({
   imports: [
@@ -14,10 +16,13 @@ import {DashboardModule} from '../dashboard.module';
     NgZorroAntdModule,
     FormsModule,
     AllFileRoutingModule,
-    DashboardModule
+    UtilModule
   ],
   declarations: [
     AllFileComponent,
+  ],
+  exports: [
+    AllFileComponent
   ]
 })
 export class AllFileModule {

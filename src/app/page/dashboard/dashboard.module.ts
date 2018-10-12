@@ -6,23 +6,25 @@ import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {FormsModule} from '@angular/forms';
 import {SizeFormatPipe} from '../../service/size-format.pipe';
 import {DateFormatPipe} from '../../service/date-format.pipe';
+import {DocComponent} from './doc/doc.component';
+import {FileComponent} from './file/file.component';
+import {AllFileModule} from './all-file/all-file.module';
+import {UtilModule} from '../../service/util.module';
 
 @NgModule({
   imports: [
     CommonModule,
     DashboardRoutingModule,
     NgZorroAntdModule,
-    FormsModule
+    FormsModule,
+    AllFileModule,
+    UtilModule
   ],
   declarations: [
     DashboardComponent,
-    DateFormatPipe,
-    SizeFormatPipe
+    DocComponent,
+    FileComponent,
   ],
-  exports: [
-    DateFormatPipe,
-    SizeFormatPipe
-  ]
 })
 export class DashboardModule {
 }

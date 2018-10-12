@@ -5,6 +5,7 @@ import {saveAs as importedSaveAs} from 'file-saver';
 
 @Injectable()
 export class CommonService {
+  disk;
 
   constructor(private http: HttpClient) {
   }

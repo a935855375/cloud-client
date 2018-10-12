@@ -3,7 +3,8 @@ import {NgModule} from '@angular/core';
 
 
 const routes: Routes = [
-  {path: '', loadChildren: './page/dashboard/dashboard.module#DashboardModule'},
+  {path: 'disk', loadChildren: './page/dashboard/dashboard.module#DashboardModule'},
+  {path: '', redirectTo: 'disk', pathMatch: 'full'}
 ];
 
 const config: ExtraOptions = {

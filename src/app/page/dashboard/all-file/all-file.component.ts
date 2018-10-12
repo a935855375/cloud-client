@@ -83,10 +83,17 @@ export class AllFileComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.commonService.getRootDir().then((x: any) => {
-      this.fileList = this.sortFiles(x.files);
-      this.curDir.push(x);
-    });
+    if (this.commonService.disk) {
+      this.fileList = this.sortFiles(this.commonService.disk.files);
+      this.curDir.push(this.commonService.disk);
+    } else
+      this.commonService.getRootDir().then((x: any) => {
+        console.log(x);
+        this.commonService.disk = x;
+        this.fileList = this.sortFiles(x.files);
+        this.curDir.push(x);
+      });
+
   }
 
   changeStatus(x) {
@@ -355,7 +362,7 @@ export class AllFileComponent implements OnInit {
         this.curDir[idx].files = this.curDir[idx].files.filter(x => uuid.indexOf(x.uuid) == -1);
         let source = this.curDir[0];
         if (to.length != 1) {
-          to.splice(0,1);
+          to.splice(0, 1);
           to.forEach((next) => {
             source = source.files.find(x => x.uuid == next);
           });
