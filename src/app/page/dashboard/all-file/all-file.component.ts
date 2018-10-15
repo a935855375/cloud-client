@@ -22,7 +22,7 @@ export class AllFileComponent implements OnInit, OnDestroy {
 
   isVisible = false;
 
-  nodes = [];
+  nodes: any[] = [{}];
 
   @ViewChild('tree') tree: NzTreeComponent;
 
